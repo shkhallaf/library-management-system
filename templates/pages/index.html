@@ -113,18 +113,11 @@
       <div class="row justify-content-center mb-3">
         <div class="col-4">
           <ul class="nav">
+            {% for cat in categories|slice:"4" %}
             <li class="nav-item">
-              <a id="" class="nav-link bg-primary" href="#">تاريخ</a>
+              <a id="" class="nav-link bg-primary" href="#">{{cat|capfirst}}</a>
             </li>
-            <li class="nav-item">
-              <a id="" class="nav-link bg-primary" href="#">فن</a>
-            </li>
-            <li class="nav-item">
-              <a id="" class="nav-link bg-primary" href="#">ثقافة</a>
-            </li>
-            <li class="nav-item">
-              <a id="" class="nav-link bg-primary" href="#">رومانسية</a>
-            </li>
+            {% endfor %}
           </ul>
         </div>
       </div>
@@ -155,75 +148,86 @@
                 <!-- Button trigger modal -->
               </div>
             </div>
-
+            {% if book.book_image %}
             <div
               class="widget-user-header bg-success"
               style="background : url({{book.book_image.url}}) ; background-size:cover"
             >
-              <h3 class="widget-user-username">{{book.title|capfirst}}</h3>
-              <h5 class="widget-user-desc">{{book.author|capfirst}}</h5>
-            </div>
-            <div class="widget-user-image">
-              {% if book.author_image %}
-              <img
-                style="width: 100px; height: 100px"
-                class="img-circle elevation-2"
-                src="{{book.author_image.url}} "
-                alt="User Avatar"
-              />
-              {% endif %}
-            </div>
-            <div class="card-footer">
-              <div class="row">
-                <div class="col-sm-4 border-right">
-                  <div class="description-block">
-                    <h5 class="description-header">{{book.pages}}</h5>
-                    <span class="description-text">Pages</span>
-                  </div>
-                  <!-- /.description-block -->
-                </div>
-                <!-- /.col -->
-                <div class="col-sm-4 border-right">
-                  <div class="description-block">
-                    <h5 class="description-header">{{book.price}}$</h5>
-                    <span class="description-text">Price</span>
-                  </div>
-                  <!-- /.description-block -->
-                </div>
-                <!-- /.col -->
-                <div class="col-sm-4">
-                  <div class="description-block">
-                    {% if book.book_status == "sold" %}
-                    <h5 class="description-header text-danger">
-                      {{book.book_status}}
-                    </h5>
-                    {% elif book.book_status == "rented" %}
-                    <h5 class="description-header text-warning">
-                      {{book.book_status}}
-                    </h5>
-                    {% else %}
-                    <h5 class="description-header text-success">
-                      {{book.book_status}}
-                    </h5>
-                    {% endif %}
-
-                    <span class="description-text">Status </span>
-                  </div>
-                  <!-- /.description-block -->
-                </div>
-                <!-- /.col -->
+              {% else %}
+              <div class="widget-user-header bg-info">
+                {% endif %}
+                <h3 class="widget-user-username">{{book.title|capfirst}}</h3>
+                <h5 class="widget-user-desc">{{book.author|capfirst}}</h5>
               </div>
-              <!-- /.row -->
-            </div>
-          </div>
-          <!-- /.widget-user -->
-        </div>
-        <!-- نهاية الكتاب -->
-        {% endfor %}
-      </div>
-      <!-- /.content-wrapper -->
+              <div class="widget-user-image">
+                {% if book.author_image %}
+                <img
+                  style="width: 100px; height: 100px"
+                  class="img-circle elevation-2"
+                  src="{{book.author_image.url}} "
+                  alt="User Avatar"
+                />
+                {% endif %}
+              </div>
+              <div class="card-footer">
+                <div class="row">
+                  <div class="col-sm-4 border-right">
+                    <div class="description-block">
+                      <h5 class="description-header">{{book.pages}}</h5>
+                      <span class="description-text">Pages</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-4 border-right">
+                    <div class="description-block">
+                      {% if book.price %}
+                      <h5 class="description-header">{{book.price}}$</h5>
+                      <span class="description-text">Price</span>
+                      {% elif book.rental_price_per_day %}
+                      <h5 class="description-header">
+                        {{book.rental_price_per_day}}$
+                      </h5>
+                      <span class="description-text">RPPD</span>
+                      {% endif %}
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-4">
+                    <div class="description-block">
+                      {% if book.book_status == "sold" %}
+                      <h5 class="description-header text-danger">
+                        {{book.book_status}}
+                      </h5>
+                      {% elif book.book_status == "rented" %}
+                      <h5 class="description-header text-warning">
+                        {{book.book_status}}
+                      </h5>
+                      {% else %}
+                      <h5 class="description-header text-success">
+                        {{book.book_status}}
+                      </h5>
+                      {% endif %}
 
-      {% endblock %}
+                      <span class="description-text">Status </span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                </div>
+                <!-- /.row -->
+              </div>
+            </div>
+            <!-- /.widget-user -->
+          </div>
+          <!-- نهاية الكتاب -->
+          {% endfor %}
+        </div>
+        <!-- /.content-wrapper -->
+
+        {% endblock %}
+      </div>
     </div>
   </div>
 </div>
